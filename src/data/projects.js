@@ -28,7 +28,7 @@ export const projects = [
     image: "https://res.cloudinary.com/dojjfvya3/image/upload/v1770402697/Screenshot_2026-02-06_235903_ilqycc.png",
     tags: ['HTML','CSS'],
     github: "https://github.com/TajaparaDhruva/Websites/tree/e53851a1c38ea1098fc7033d273a1cf69a308bb2/Dream%20Games",
-    demo: "https://dream-gamed.netlify.app/",
+    demo: "https://sunny-custard-ab2b92.netlify.app/",
     youtube: "https://youtu.be/RHrb-0A3-1o?si=oHNMyxNzxZJnhRRA",
     featured: true,
   },
