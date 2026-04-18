@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { Helmet } from "react-helmet-async";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const navLinks = [
   { name: "Home", path: "#hero" },
@@ -11,6 +11,7 @@ const navLinks = [
   { name: "Skills", path: "#skills" },
   { name: "Works", path: "#projects" },
   { name: "Designs", path: "#designs" },
+  { name: "Certificates", path: "#achievements" },
   { name: "Contact", path: "#contact" },
 ];
 
@@ -20,6 +21,21 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("#hero");
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === "/projects") setActiveTab("#projects");
+    else if (path === "/figma-designs") setActiveTab("#designs");
+    else if (path === "/certificates") setActiveTab("#achievements");
+    else if (path === "/skills") setActiveTab("#skills");
+    else if (path === "/about") setActiveTab("#about");
+    else if (path === "/education") setActiveTab("#education");
+    else if (path === "/contact") setActiveTab("#contact");
+    else if (path === "/") {
+      setActiveTab(location.hash || "#hero");
+    }
+  }, [location.pathname, location.hash]);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -32,14 +48,18 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       
+      if (window.location.pathname !== "/") return;
+
       const sections = navLinks.map(link => link.path.substring(1));
+      let currentSection = "#hero";
       for (const section of sections.reverse()) {
         const element = document.getElementById(section);
         if (element && window.scrollY >= element.offsetTop - 200) {
-          setActiveTab(`#${section}`);
+          currentSection = `#${section}`;
           break;
         }
       }
+      setActiveTab(currentSection);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -48,6 +68,13 @@ export default function Navbar() {
 
   const handleNavClick = (e, path) => {
     e.preventDefault();
+    
+    if (location.pathname !== "/") {
+      setMobileOpen(false);
+      navigate(`/${path}`);
+      return;
+    }
+
     const element = document.getElementById(path.substring(1));
     if (element) {
       const offset = scrolled ? 100 : 120;
@@ -76,6 +103,8 @@ export default function Navbar() {
         return { title: "Works & Projects | Dhruva Portfolio", desc: "Explore a comprehensive archive of Dhruva's full-stack projects." };
       case "#designs":
         return { title: "UI/UX Designs | Dhruva Portfolio", desc: "Explore my UI/UX design work and Figma prototypes." };
+      case "#achievements":
+        return { title: "Certificates & Achievements | Dhruva", desc: "Explore my technical certifications and achievements." };
       case "#contact":
         return { title: "Contact Dhruva | Let's Talk", desc: "Get in touch with Dhruva for opportunities and collaborations." };
       case "#education":
