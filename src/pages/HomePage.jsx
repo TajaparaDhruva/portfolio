@@ -1,6 +1,7 @@
 import HeroSection from "../components/HeroSection";
 import SkillsSection from "../components/SkillsSection";
 import ProjectsPreview from "../components/ProjectsPreview";
+import FigmaDesignsPreview from "../components/FigmaDesignsPreview";
 import AboutSection from "../components/AboutSection";
 import EducationSection from "../components/EducationSection";
 
@@ -18,6 +19,7 @@ export default function HomePage() {
       <AboutSection />
       <SkillsSection />
       <ProjectsPreview />
+      <FigmaDesignsPreview />
 
       <AchievementsPreview />
       <EducationSection />
@@ -25,3 +27,4 @@ export default function HomePage() {
     </PageTransition>
   );
 }
+

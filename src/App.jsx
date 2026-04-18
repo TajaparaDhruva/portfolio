@@ -10,7 +10,9 @@ import CursorSpotlight from "./components/CursorSpotlight";
 import HomePage from "./pages/HomePage";
 import ProjectsPage from "./pages/ProjectsPage";
 import CertificatesPage from "./pages/CertificatesPage";
+import FigmaDesignsPage from "./pages/FigmaDesignsPage";
 import SkillsPage from "./pages/SkillsPage";
+
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 
@@ -18,11 +20,23 @@ export default function App() {
   const [introComplete, setIntroComplete] = useState(false);
   const location = useLocation();
 
-  // Scroll to top on route change
+  // Scroll handling on route change
   useEffect(() => {
     window.history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+    
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100); // Small delay to ensure DOM is ready
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, location.hash]);
+
 
   return (
     <div className="relative min-h-screen bg-dark bg-mesh">
@@ -46,7 +60,9 @@ export default function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/skills" element={<SkillsPage />} />
                 <Route path="/projects" element={<ProjectsPage />} />
+                <Route path="/figma-designs" element={<FigmaDesignsPage />} />
                 <Route path="/about" element={<AboutPage />} />
+
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/certificates" element={<CertificatesPage />} />
               </Routes>

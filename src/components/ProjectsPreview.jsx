@@ -1,107 +1,31 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { FaGithub, FaExternalLinkAlt, FaCode, FaYoutube } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt, FaCode, FaYoutube, FaGamepad, FaCopy, FaDatabase, FaLayerGroup } from "react-icons/fa";
 import GlowButton from "./GlowButton";
+import ProjectCard from "./ProjectCard";
 import { projects } from "../data/projects";
 
-function ProjectCard({ project, index }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative bg-[#0a0f1d]/60 backdrop-blur-3xl border border-white/5 rounded-3xl overflow-hidden hover:border-[#d4a843]/30 transition-all duration-700 shadow-2xl h-full flex flex-col"
-    >
-      {/* Visual Component */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-black/40 flex-shrink-0">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1d] via-transparent to-transparent" />
-        
-        <div className="absolute top-4 left-4">
-           <div className="flex items-center gap-2 px-3 py-1.5 bg-black/60 border border-white/10 backdrop-blur-xl rounded-full">
-              <FaCode className="text-[#d4a843] text-[10px]" />
-              <span className="text-[8px] font-mono text-white/60 uppercase tracking-widest">ID_{String(index + 1).padStart(2, '0')}</span>
-           </div>
-        </div>
-      </div>
-
-      {/* Content Component */}
-      <div className="p-8 space-y-6 flex-grow flex flex-col justify-between">
-        <div className="space-y-4">
-           <div className="flex items-center gap-2">
-              <span className="text-[9px] font-mono text-[#d4a843] uppercase tracking-[0.3em] font-black italic">Ref_Analysis: System_Artifact</span>
-           </div>
-           <h3 className="text-2xl font-heading font-black text-white leading-tight uppercase group-hover:text-[#d4a843] transition-colors duration-500">
-             {project.title}
-           </h3>
-           <p className="text-white/40 text-[11px] leading-relaxed font-medium uppercase tracking-tight line-clamp-2">
-              {project.description}
-           </p>
-        </div>
-
-        <div className="space-y-6 pt-4">
-           <div className="w-full h-px bg-white/5" />
-           <div className="flex items-center justify-between">
-              <div className="flex items-center gap-6">
-                 {project.demo && (
-                   <motion.a
-                     href={project.demo}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     whileHover={{ x: 5 }}
-                     className="flex items-center gap-3 text-[10px] font-mono text-white/40 uppercase tracking-[0.2em] hover:text-[#d4a843] transition-colors group/link"
-                   >
-                     <span>Live_Interface</span>
-                     <FaExternalLinkAlt size={10} />
-                   </motion.a>
-                 )}
-                 {project.github && (
-                   <motion.a
-                     href={project.github}
-                     target="_blank"
-                     rel="noreferrer"
-                     whileHover={{ x: 5 }}
-                     className="flex items-center gap-3 text-[10px] font-mono text-white/40 uppercase tracking-[0.2em] hover:text-white transition-colors group/link"
-                   >
-                     <FaGithub size={14} />
-                     <span>Source</span>
-                   </motion.a>
-                 )}
-                 {project.youtube && (
-                   <motion.a
-                     href={project.youtube}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     whileHover={{ x: 5 }}
-                     className="flex items-center gap-3 text-[10px] font-mono text-white/40 uppercase tracking-[0.2em] hover:text-red-500 transition-colors group/link"
-                   >
-                     <FaYoutube size={14} />
-                     <span>Watch</span>
-                   </motion.a>
-                 )}
-              </div>
-
-           </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
+const SECTORS = [
+  { id: "all", label: "Featured", icon: null },
+  { id: "games", label: "Gaming Zone", icon: <FaGamepad /> },
+  { id: "clone", label: "Clones Archive", icon: <FaCopy /> },
+  { id: "full-stack", label: "Full Stack Terminal", icon: <FaDatabase /> },
+  { id: "frontend", label: "Frontend Lab", icon: <FaLayerGroup /> },
+];
 
 export default function ProjectsPreview() {
-  const featured = projects.filter((p) => p.featured).slice(0, 3);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const filteredProjects = selectedCategory === "all" 
+    ? projects.slice(0, 3) 
+    : projects.filter(p => p.category === selectedCategory).slice(0, 3);
 
   return (
     <section id="projects" className="relative bg-[#020617] py-40 overflow-hidden w-full px-6 lg:px-12">
       <div className="max-w-7xl mx-auto relative z-10 w-full">
         
-        {/* Balanced Header */}
+        {/* Header Section */}
         <div className="mb-24 flex flex-col md:flex-row justify-between items-end gap-10 border-b border-white/5 pb-16">
            <div className="space-y-6">
               <motion.div
@@ -111,7 +35,7 @@ export default function ProjectsPreview() {
                 className="flex items-center gap-4"
               >
                  <span className="w-12 h-px bg-[#d4a843]" />
-                 <span className="text-[10px] font-mono text-[#d4a843] uppercase tracking-[0.5em] font-black underline underline-offset-8">Featured Core</span>
+                 <span className="text-[10px] font-mono text-[#d4a843] uppercase tracking-[0.5em] font-black underline underline-offset-8">Production Manifest</span>
               </motion.div>
               
               <motion.h2 
@@ -125,28 +49,58 @@ export default function ProjectsPreview() {
               </motion.h2>
            </div>
 
-           <div className="flex items-center gap-4 text-white/10 font-mono text-[9px] uppercase tracking-[0.4em] hidden lg:block">
-              <span>Collection.01 // Artifact_Manifest</span>
+           <div className="flex items-center gap-4 text-white/10 font-mono text-[9px] uppercase tracking-[0.4em] hidden lg:block text-right">
+              <span>Collection.01 // Artifact_Manifest</span><br/>
+              <span>Authorized_Access_Only</span>
            </div>
         </div>
 
-        {/* Project Exhibit Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-           {featured.map((project, index) => (
-             <ProjectCard key={project.id} project={project} index={index} />
-           ))}
+        {/* Filtering Hub */}
+        <div className="mb-20 flex flex-wrap gap-4 justify-center">
+          {SECTORS.map((sector) => (
+            <GlowButton
+              key={sector.id}
+              variant={selectedCategory === sector.id ? "gold" : "cyber"}
+              size="sm"
+              icon={sector.icon}
+              onClick={() => setSelectedCategory(sector.id)}
+            >
+              {sector.label.split(' ')[0]}
+            </GlowButton>
+          ))}
         </div>
 
-        {/* Studio Gallery Action (Matching Certificate Section) */}
-        <div className="mt-24 flex flex-col items-center gap-8">
-           <div className="w-px h-24 bg-gradient-to-b from-white/5 to-[#d4a843]/40" />
+        {/* Unified Grid */}
+        <motion.div 
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4 }}
+              >
+                <ProjectCard project={project} index={index} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Studio Gallery Action */}
+        <div className="mt-40 flex flex-col items-center gap-8">
+           <div className="w-px h-32 bg-gradient-to-b from-white/5 via-[#d4a843]/40 to-transparent" />
            <Link to="/projects">
-              <GlowButton className="px-16 py-6 text-[11px] uppercase tracking-[0.4em] font-black rounded-full">
-                 View More Projects
+              <GlowButton className="px-20 py-8 text-[12px] uppercase tracking-[0.5em] font-black rounded-full shadow-[0_0_50px_rgba(212,168,67,0.1)]">
+                 Enter Full Archive
               </GlowButton>
            </Link>
-           <span className="text-[7px] font-mono text-white/10 uppercase tracking-[0.3em] font-black">
-              Archive_Protocol: AP.091 // Unified_Repository
+           <span className="text-[8px] font-mono text-white/10 uppercase tracking-[0.3em] font-black">
+              System_Status: Unified_Repository_V2.0
            </span>
         </div>
 
@@ -154,5 +108,3 @@ export default function ProjectsPreview() {
     </section>
   );
 }
-
-

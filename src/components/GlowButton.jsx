@@ -1,26 +1,27 @@
 import { motion, useSpring, useMotionValue, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function GlowButton({
   children,
   onClick,
   href,
-  variant = "cyan",
+  variant = "gold",
   size = "md",
   className = "",
   icon,
   target,
 }) {
   const ref = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Magnetic Effect Logic
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+  // Advanced Magnetic Effect Logic
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-  const springConfig = { damping: 15, stiffness: 150 };
-  const mouseXSpring = useSpring(x, springConfig);
-  const mouseYSpring = useSpring(y, springConfig);
+  const springConfig = { damping: 20, stiffness: 300 };
+  const magneticX = useSpring(mouseX, springConfig);
+  const magneticY = useSpring(mouseY, springConfig);
 
   const handleMouseMove = (e) => {
     if (!ref.current) return;
@@ -28,47 +29,89 @@ export default function GlowButton({
     const centerX = left + width / 2;
     const centerY = top + height / 2;
     
-    // Calculate distance and pull strength
-    const distanceX = e.clientX - centerX;
-    const distanceY = e.clientY - centerY;
-    
-    // Magnetic pull (max 15px movement)
-    x.set(distanceX * 0.2);
-    y.set(distanceY * 0.2);
+    // Magnetic pull (refined strength)
+    mouseX.set((e.clientX - centerX) * 0.25);
+    mouseY.set((e.clientY - centerY) * 0.25);
   };
 
   const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
+    mouseX.set(0);
+    mouseY.set(0);
+    setIsHovered(false);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
   };
 
   const sizeClasses = {
-    sm: "px-4 py-2 text-sm",
-    md: "px-6 py-3 text-base",
-    lg: "px-8 py-4 text-lg",
+    sm: "px-5 py-2 text-[10px]",
+    md: "px-8 py-3.5 text-[11px]",
+    lg: "px-12 py-5 text-[13px]",
   };
 
-  const variantClass = variant === "pink" ? "btn-glow-pink" : 
-                       variant === "gold" ? "border border-[#d4a843]/30 bg-[#d4a843]/5 text-[#d4a843] rounded-xl font-bold uppercase tracking-widest hover:bg-[#d4a843]/10" :
-                       "btn-glow";
+  const variants = {
+    gold: "bg-[#d4a843]/5 border-[#d4a843]/30 text-[#d4a843] hover:bg-[#d4a843]/10 hover:border-[#d4a843]/60 shadow-[0_0_20px_rgba(212,168,67,0.05)]",
+    outline: "bg-transparent border-white/10 text-white/60 hover:border-[#d4a843]/50 hover:text-white",
+    glass: "bg-white/5 backdrop-blur-xl border-white/10 text-white hover:bg-white/10 hover:border-white/20",
+    cyber: "bg-black/40 border-[#d4a843]/20 text-[#d4a843] hover:border-[#d4a843]/50",
+  };
+
+  const currentVariant = variants[variant] || variants.gold;
 
   const content = (
-    <>
-      {icon && <span className="text-lg">{icon}</span>}
-      {children}
-    </>
+    <div className="relative z-10 flex items-center justify-center gap-3">
+      {icon && <span className="text-base group-hover:scale-110 transition-transform duration-300">{icon}</span>}
+      <span className="font-mono font-black uppercase tracking-[0.3em]">{children}</span>
+    </div>
   );
 
-  const combinedClasses = `${variantClass} ${sizeClasses[size] || sizeClasses.md} ${className} inline-flex items-center gap-2 font-heading transition-all duration-300`;
+  const containerClasses = `group relative rounded-xl border transition-all duration-500 overflow-hidden ${currentVariant} ${sizeClasses[size] || sizeClasses.md} ${className} cursor-none`;
+
+  const Decorations = () => (
+    <>
+      {/* Shimmer Glint */}
+      <motion.div
+        className="absolute inset-0 z-0 pointer-events-none"
+        initial={{ x: "-100%" }}
+        animate={isHovered ? { x: "100%" } : { x: "-100%" }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        style={{
+          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)",
+        }}
+      />
+
+      {/* Cyber Brackets (Special variant) */}
+      {variant === "cyber" && (
+        <>
+          <div className="absolute top-1 left-1 w-2 h-2 border-t border-l border-[#d4a843]/40 group-hover:border-[#d4a843] transition-colors" />
+          <div className="absolute top-1 right-1 w-2 h-2 border-t border-r border-[#d4a843]/40 group-hover:border-[#d4a843] transition-colors" />
+          <div className="absolute bottom-1 left-1 w-2 h-2 border-b border-l border-[#d4a843]/40 group-hover:border-[#d4a843] transition-colors" />
+          <div className="absolute bottom-1 right-1 w-2 h-2 border-b border-r border-[#d4a843]/40 group-hover:border-[#d4a843] transition-colors" />
+        </>
+      )}
+
+      {/* Pulsing Aura on Hover */}
+      {isHovered && (
+        <motion.div
+          layoutId="button-glow"
+          className="absolute inset-0 bg-[#d4a843]/5 blur-xl -z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        />
+      )}
+    </>
+  );
 
   const motionProps = {
     ref,
     onMouseMove: handleMouseMove,
+    onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
-    style: { x: mouseXSpring, y: mouseYSpring },
-    whileHover: { scale: 1.05 },
-    whileTap: { scale: 0.95 },
-    className: combinedClasses
+    style: { x: magneticX, y: magneticY },
+    whileTap: { scale: 0.96, transition: { duration: 0.1 } },
+    className: containerClasses
   };
 
   if (href) {
@@ -82,17 +125,19 @@ export default function GlowButton({
             onClick={onClick}
             {...motionProps}
           >
+            <Decorations />
             {content}
           </motion.a>
          );
       }
 
       return (
-        <motion.div {...motionProps} className="">
-          <Link to={href} className="w-full h-full flex items-center justify-center gap-2">
+        <Link to={href} className="inline-block">
+          <motion.div {...motionProps}>
+            <Decorations />
             {content}
-          </Link>
-        </motion.div>
+          </motion.div>
+        </Link>
       );
     }
     
@@ -103,6 +148,7 @@ export default function GlowButton({
         rel={target === "_blank" ? "noopener noreferrer" : undefined}
         {...motionProps}
       >
+        <Decorations />
         {content}
       </motion.a>
     );
@@ -110,7 +156,9 @@ export default function GlowButton({
 
   return (
     <motion.button onClick={onClick} {...motionProps}>
+      <Decorations />
       {content}
     </motion.button>
   );
 }
+
