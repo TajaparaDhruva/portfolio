@@ -25,10 +25,10 @@ export default function ContactSection() {
 
     try {
       await emailjs.sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_dzrnnub",
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_fqg6wdj",
         formRef.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "9YNOGSUHTL4ATe3PJ"
       );
       
       setStatus("success");
