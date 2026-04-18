@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaGithub, FaLinkedin, FaTwitter, FaCode, FaYoutube, FaArrowDown, FaFileAlt } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaTwitter, FaCode, FaYoutube, FaEye, FaFileAlt } from "react-icons/fa";
 import GlowButton from "./GlowButton";
 
 export default function HeroSection() {
@@ -79,18 +79,19 @@ export default function HeroSection() {
                 
                 <motion.a
                   href="/Dhruva_Tajapara_final.pdf"
-                  download="Dhruva_Tajapara_final.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className="px-10 py-5 rounded-full border border-[#d4a843]/30 hover:border-[#d4a843] bg-[#d4a843]/5 hover:bg-[#d4a843]/10 text-[#d4a843] transition-all duration-300 flex items-center justify-center gap-3 backdrop-blur-md min-w-[220px] group"
                 >
                   <span className="text-[11px] uppercase tracking-[0.4em] font-black">
-                    DOWNLOAD RESUME
+                    VIEW RESUME
                   </span>
                   
                    <div className="flex items-center gap-2">
                       <FaFileAlt size={10} />
-                      <FaArrowDown size={10} className="group-hover:translate-y-0.5 transition-transform" />
+                      <FaEye size={10} className="group-hover:scale-110 transition-transform" />
                    </div>
                 </motion.a>
              </div>
