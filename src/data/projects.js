@@ -19,7 +19,7 @@ export const projects = [
     tags: ['HTML', 'CSS'],
     category: "clone",
     github: "https://github.com/TajaparaDhruva/Websites/tree/e53851a1c38ea1098fc7033d273a1cf69a308bb2/Zerodha",
-    demo: "https://creative-scone-d357b7.netlify.app/",
+    demo: "https://zerodhad.netlify.app/",
     youtube: "https://youtu.be/YgI4JNsC6w0?si=8qZYlULHlH8SkeKw",
     featured: true,
   },
@@ -158,7 +158,7 @@ export const projects = [
   {
     id: 14,
     title: "Rapido App Clone",
-    description: "",
+    description: "A responsive Rapido-inspired landing page built using HTML and CSS, featuring a modern design, intuitive navigation, service highlights, and a user-friendly interface.",
     image: "https://res.cloudinary.com/dojjfvya3/image/upload/v1770402557/Screenshot_2026-02-06_235400_a5lcds.png",
     tags: ['HTML', 'CSS'],
     category: "clone",
@@ -170,7 +170,7 @@ export const projects = [
   {
     id: 15,
     title: "Starbucks App Clone",
-    description: "",
+    description: "A responsive Starbucks-inspired landing page developed using HTML and CSS, featuring a clean design, product showcases, and an engaging user experience.",
     image: "https://res.cloudinary.com/dojjfvya3/image/upload/v1776453940/Screenshot_2026-04-18_005455_q3hypo.png",
     tags: ['HTML', 'CSS'],
     category: "clone",
@@ -182,7 +182,7 @@ export const projects = [
   {
     id: 16,
     title: "Tesla App Clone",
-    description: "",
+    description: "A responsive Tesla-inspired landing page built using HTML and CSS. Features a modern UI, clean layout, smooth sections, and mobile-friendly design that replicates the look and feel of Tesla's official website.",
     image: "https://res.cloudinary.com/dojjfvya3/image/upload/v1776453972/Screenshot_2026-04-18_005519_acxagg.png",
     tags: ['HTML', 'CSS'],
     category: "clone",
@@ -191,5 +191,17 @@ export const projects = [
     youtube: "https://youtu.be/uv_23pNuP_A?si=1WerD3vLhFJW89d4",
     featured: true,
   },
+  {
+    id: 17,
+    title: "StockFinder App",
+    description: "StockFinder connects customers with local stores and provides real-time inventory visibility.",
+    image: "https://res.cloudinary.com/dojjfvya3/image/upload/v1781019848/Screenshot_2026-06-09_211334_goa6ap.png",
+    tags: ['React', 'Node.js', 'Express', 'Tailwind CSS', 'MongoDB'],
+    category: "full-stack",
+    github: "https://github.com/TajaparaDhruva/stockFinder.git",
+    demo: "https://stockfinder-frontend.vercel.app/login",
+    youtube: "https://youtu.be/ahwd_rYoNaQ?si=xBlY3hNjB2bRAaHr",
+    featured: true,
+  }
 ];
 
