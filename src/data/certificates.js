@@ -1,6 +1,6 @@
 export const certificates = [
   {
-    id: 1,
+    id: 4,
     title: "C Language",
     image: "https://res.cloudinary.com/dojjfvya3/image/upload/v1774860481/b871d37c-361b-4849-be4e-c86e800cc380_yrwo2b.jpg",
     link: "https://www.sololearn.com/certificates/CC-6FVUPDYE",
@@ -24,6 +24,15 @@ export const certificates = [
     link: "https://www.sololearn.com/certificates/CC-PCOFQTLM",
     issuer: "Sololearn",
     date: "2026",
+    featured: true,
+  },
+  {
+    id: 3,
+    title: "Swarnim Hackthon",
+    image: "https://res.cloudinary.com/dojjfvya3/image/upload/v1785512566/WhatsApp_Image_2026-07-31_at_9.09.53_PM_ajtpr3.jpg",
+    link: "https://res.cloudinary.com/dojjfvya3/image/upload/v1785512566/WhatsApp_Image_2026-07-31_at_9.09.53_PM_ajtpr3.jpg",
+    issuer: "Swarnim Hackthon",
+    date: "2025",
     featured: true,
   },
 ];
