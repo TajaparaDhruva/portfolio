@@ -114,7 +114,7 @@ export default function HeroSection() {
                   { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/dhruva-tajapara-2967a5378/", name: "LinkedIn", color: "hover:bg-[#0077b5]/10 hover:text-[#0077b5]" },
                   { icon: <FaTwitter />, link: "https://x.com/Dhruva_Tajapara", name: "Twitter", color: "hover:bg-[#1da1f2]/10 hover:text-[#1da1f2]" },
                   { icon: <FaCode />, link: "https://leetcode.com/u/DhruvaTajapara/", name: "LeetCode", color: "hover:bg-[#ffa116]/10 hover:text-[#ffa116]" },
-                  { icon: <FaYoutube />, link: "https://www.youtube.com/@DhruvaTajapara-k3v", name: "YouTube", color: "hover:bg-[#ff0000]/10 hover:text-[#ff0000]" }
+                  { icon: <FaYoutube />, link: "https://www.youtube.com/@DhruvaTajapara", name: "YouTube", color: "hover:bg-[#ff0000]/10 hover:text-[#ff0000]" }
                 ].map((social, index) => (
                   <motion.a
                     key={index}
